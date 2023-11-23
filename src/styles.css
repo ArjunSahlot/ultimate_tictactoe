@@ -1,0 +1,105 @@
+body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	margin: 0;
+	background-color: #f2e2c7;
+}
+
+#title {
+	font-size: 48px;
+	top: 10px;
+	font-weight: bold;
+	position: absolute;
+}
+
+#info {
+	font-size: 36px;
+	border: 3px solid;
+	border-radius: 5px;
+	padding: 5px;
+	margin-bottom: 10px;
+}
+
+#start {
+	position: absolute;
+	top: 90px;
+	font-size: 32px;
+	padding: 15px 30px;
+	background-color: #4caf50;
+	border: none;
+	border-radius: 8px;
+	color: white;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	cursor: pointer;
+}
+
+#start:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+#start:active {
+	transform: translateY(1px);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.big {
+	display: grid;
+	grid-template-columns: repeat(3, 200px);
+	grid-template-rows: repeat(3, 200px);
+	gap: 6px;
+	background-color: black;
+}
+
+.small {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(3, 1fr);
+	gap: 2px;
+	background-color: black;
+}
+
+.cell {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #ffefcf;
+	cursor: pointer;
+}
+
+.orange-highlight {
+	position: relative;
+	border: 3px solid #ff9900;
+	box-shadow: 0 0 10px #ff9900;
+}
+
+.blue-highlight {
+	position: relative;
+	border: 3px solid #00aeff;
+	box-shadow: 0 0 10px #00aeff;
+}
+
+.cell-highlight {
+	background-color: #cacaca;
+}
+
+.cell img {
+	width: 80%;
+	height: auto;
+	display: block;
+	margin: 0;
+}
+
+.inline {
+	height: 1.2em;
+	width: auto;
+	vertical-align: middle;
+}
+
+.hidden {
+	display: none;
+}
