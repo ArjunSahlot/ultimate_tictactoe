@@ -20,6 +20,7 @@ let moveGrid = (grid) => {
 	currGrid = grid;
 };
 
+// TODO HIDE GAME BEFORE YOU START
 let updateTurn = (flip = false) => {
 	if (moves === 0) {
 		document.getElementById("start").innerHTML = "Reset Game";
@@ -34,7 +35,7 @@ let updateTurn = (flip = false) => {
 
 let setCell = (cell) => {
 	const img = document.createElement("img");
-	img.src = turn() ? "../assets/x.svg" : "../assets/o.svg";
+	img.src = turn() ? "assets/x.svg" : "assets/o.svg";
 	img.classList.add("inline");
 	cell.appendChild(img);
 };
@@ -67,10 +68,10 @@ document.addEventListener("DOMContentLoaded", function () {
 	const start = document.getElementById("start");
 
 	start.addEventListener("click", () => {
-		start.innerHTML = "Start Game";
 		clearGrid();
 		moveGrid(-1);
-		moves = 0;
+		moves = -1;
+		updateTurn(true);
 	});
 
 	miniGrids.forEach((grid) => {
