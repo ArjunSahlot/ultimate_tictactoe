@@ -21,6 +21,9 @@ let moveGrid = (grid) => {
 };
 
 let updateTurn = (flip = false) => {
+	if (moves === 0) {
+		document.getElementById("start").innerHTML = "Reset Game";
+	}
 	if (flip) {
 		moves++;
 	}
@@ -64,6 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	const start = document.getElementById("start");
 
 	start.addEventListener("click", () => {
+		start.innerHTML = "Start Game";
 		clearGrid();
 		moveGrid(-1);
 		moves = 0;
