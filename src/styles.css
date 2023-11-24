@@ -81,7 +81,7 @@ body {
 	position: absolute;
 	border: 3px solid #ff9900;
 	box-shadow: 0 0 10px #ff9900;
-	transition: all 0.5s ease; /* Transition effect */
+	transition: all 0.5s ease;
 	z-index: 10;
 	pointer-events: none;
 }
