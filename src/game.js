@@ -20,11 +20,7 @@ let moveGrid = (grid) => {
 	currGrid = grid;
 };
 
-// TODO HIDE GAME BEFORE YOU START
 let updateTurn = (flip = false) => {
-	if (moves === 0) {
-		document.getElementById("start").innerHTML = "Reset Game";
-	}
 	if (flip) {
 		moves++;
 	}
@@ -66,12 +62,17 @@ document.addEventListener("DOMContentLoaded", function () {
 	const miniGrids = document.querySelectorAll(".small");
 	const cells = document.querySelectorAll(".cell");
 	const start = document.getElementById("start");
+	const info = document.getElementById("info");
+	const grid = document.getElementsByClassName("big")[0];
 
 	start.addEventListener("click", () => {
 		clearGrid();
 		moveGrid(-1);
 		moves = -1;
 		updateTurn(true);
+		info.classList.remove("hidden");
+		grid.classList.remove("hidden");
+		document.getElementById("start").innerHTML = "Reset Game";
 	});
 
 	miniGrids.forEach((grid) => {
@@ -107,6 +108,11 @@ document.addEventListener("DOMContentLoaded", function () {
 				updateTurn(true);
 				moveGrid(cellIndex);
 			}
+			cell.querySelector("img").classList.add("cell-animation");
+
+			setTimeout(() => {
+				cell.classList.querySelector("img").remove("cell-animation");
+			}, 500);
 		});
 	});
 });
