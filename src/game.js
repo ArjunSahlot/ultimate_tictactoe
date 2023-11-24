@@ -17,8 +17,8 @@ let moveGrid = (grid) => {
 	const border = document.querySelector(".border");
 
 	border.style.display = "block";
-	border.style.width = `${rect.width - 6}px`;
-	border.style.height = `${rect.height - 6}px`;
+	border.style.width = `${rect.width - 5}px`;
+	border.style.height = `${rect.height - 5}px`;
 	border.style.top = `${rect.top}px`;
 	border.style.left = `${rect.left}px`;
 	border.style.borderColor = turn() ? "#da2940" : "#00aaff";
@@ -108,17 +108,33 @@ document.addEventListener("DOMContentLoaded", function () {
 			const gridIndex = allGrids.indexOf(parentGrid);
 			const cellIndex = allCellsInGrid.indexOf(cell);
 
+			const border = document.querySelector(".border");
+
 			if (checkCell(cell) === null && (currGrid === -1 || gridIndex === currGrid)) {
 				setCell(cell);
 				cell.parentElement.classList.remove("orange-highlight");
 				updateTurn(true);
 				moveGrid(cellIndex);
-			}
-			cell.querySelector("img").classList.add("cell-animation");
 
-			setTimeout(() => {
-				cell.querySelector("img").classList.remove("cell-animation");
-			}, 500);
+				cell.querySelector("img").classList.add("cell-animation");
+				cell.addEventListener(
+					"animationend",
+					() => {
+						cell.querySelector("img").classList.remove("cell-animation");
+					},
+					{ once: true }
+				);
+			} else {
+				border.classList.add("shake");
+
+				border.addEventListener(
+					"animationend",
+					() => {
+						border.classList.remove("shake");
+					},
+					{ once: true }
+				);
+			}
 		});
 	});
 });
