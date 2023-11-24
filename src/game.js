@@ -6,17 +6,24 @@ let turn = () => {
 };
 
 let moveGrid = (grid) => {
-	const big = document.getElementsByClassName("big")[0];
-	if (currGrid === -1) {
-		big.classList.remove("blue-highlight");
-	} else {
-		big.children[currGrid].classList.remove("orange-highlight");
-	}
+	let newGrid = 0;
 	if (grid === -1) {
-		big.classList.add("blue-highlight");
+		newGrid = document.getElementsByClassName("big")[0];
 	} else {
-		big.children[grid].classList.add("orange-highlight");
+		newGrid = document.getElementsByClassName("small")[grid];
 	}
+
+	const rect = newGrid.getBoundingClientRect();
+	const border = document.querySelector(".border");
+
+	border.style.display = "block";
+	border.style.width = `${rect.width - 3}px`;
+	border.style.height = `${rect.height - 3}px`;
+	border.style.top = `${rect.top}px`;
+	border.style.left = `${rect.left}px`;
+	border.style.borderColor = turn() ? "#da2940" : "#00aaff";
+	border.style.boxShadow = turn() ? "0 0 10px #da2940" : "0 0 10px #00aaff";
+
 	currGrid = grid;
 };
 
@@ -67,21 +74,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	start.addEventListener("click", () => {
 		clearGrid();
-		moveGrid(-1);
 		moves = -1;
 		updateTurn(true);
 		info.classList.remove("hidden");
 		grid.classList.remove("hidden");
+		moveGrid(-1);
 		document.getElementById("start").innerHTML = "Reset Game";
 	});
 
 	miniGrids.forEach((grid) => {
 		grid.addEventListener("mouseover", () => {
-			if (moves === 0) grid.classList.add("orange-highlight");
-		});
-
-		grid.addEventListener("mouseout", () => {
-			if (moves === 0) grid.classList.remove("orange-highlight");
+			if (moves !== 0) return;
+			const allGrids = Array.from(document.querySelectorAll(".small"));
+			const gridIndex = allGrids.indexOf(grid);
+			moveGrid(gridIndex);
 		});
 	});
 
@@ -111,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			cell.querySelector("img").classList.add("cell-animation");
 
 			setTimeout(() => {
-				cell.classList.querySelector("img").remove("cell-animation");
+				cell.querySelector("img").classList.remove("cell-animation");
 			}, 500);
 		});
 	});

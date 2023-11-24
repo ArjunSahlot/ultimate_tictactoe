@@ -71,16 +71,19 @@ body {
 	cursor: pointer;
 }
 
-.orange-highlight {
-	position: relative;
-	border: 3px solid #ff9900;
-	box-shadow: 0 0 10px #ff9900;
+.big,
+.small,
+.cell {
+	z-index: 1;
 }
 
-.blue-highlight {
-	position: relative;
-	border: 3px solid #00aeff;
-	box-shadow: 0 0 10px #00aeff;
+.border {
+	position: absolute;
+	border: 3px solid #ff9900;
+	box-shadow: 0 0 10px #ff9900;
+	transition: all 0.5s ease; /* Transition effect */
+	z-index: 10;
+	pointer-events: none;
 }
 
 .cell-highlight {
