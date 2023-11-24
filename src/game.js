@@ -17,8 +17,8 @@ let moveGrid = (grid) => {
 	const border = document.querySelector(".border");
 
 	border.style.display = "block";
-	border.style.width = `${rect.width - 3}px`;
-	border.style.height = `${rect.height - 3}px`;
+	border.style.width = `${rect.width - 6}px`;
+	border.style.height = `${rect.height - 6}px`;
 	border.style.top = `${rect.top}px`;
 	border.style.left = `${rect.left}px`;
 	border.style.borderColor = turn() ? "#da2940" : "#00aaff";
