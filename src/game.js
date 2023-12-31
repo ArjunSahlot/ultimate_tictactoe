@@ -1,5 +1,6 @@
 let moves = 0;
 let currGrid = -1;
+let finishedGrids = [];
 
 let turn = () => {
 	return moves % 2 === 0;
@@ -36,11 +37,20 @@ let updateTurn = (flip = false) => {
 	setCell(info);
 };
 
-let setCell = (cell) => {
+let setCell = (cell, index = 0) => {
 	const img = document.createElement("img");
 	img.src = turn() ? "assets/x.svg" : "assets/o.svg";
 	img.classList.add("inline");
-	cell.appendChild(img);
+	cell.insertBefore(img, cell.children[index]);
+
+	img.classList.add("cell-animation");
+	img.addEventListener(
+		"animationend",
+		() => {
+			img.classList.remove("cell-animation");
+		},
+		{ once: true }
+	);
 };
 
 let removeCell = (cell) => {
@@ -57,6 +67,62 @@ let checkCell = (cell) => {
 		return img.src.includes("x");
 	}
 	return null;
+};
+
+let getGrid = () => {
+	// grid[gridIndex][row][col]
+	let grid = [];
+	for (let i = 0; i < 9; i++) {
+		grid.push([]);
+		grid[i].push([]);
+		grid[i].push([]);
+		grid[i].push([]);
+		for (let j = 0; j < 9; j++) {
+			const cell = document.getElementsByClassName("small")[i].children[j];
+			grid[i][Math.floor(j / 3)].push(checkCell(cell));
+		}
+	}
+	return grid;
+};
+
+let checkGrid = (grid) => {
+	// check minigrid for winner
+	for (let i = 0; i < 3; i++) {
+		if (grid[i][0] !== null && grid[i][0] === grid[i][1] && grid[i][1] === grid[i][2]) {
+			return grid[i][0];
+		} else if (grid[0][i] !== null && grid[0][i] === grid[1][i] && grid[1][i] === grid[2][i]) {
+			return grid[0][i];
+		}
+	}
+	if (grid[0][0] !== null && grid[0][0] === grid[1][1] && grid[1][1] === grid[2][2]) {
+		return grid[0][0];
+	}
+	if (grid[0][2] !== null && grid[0][2] === grid[1][1] && grid[1][1] === grid[2][0]) {
+		return grid[0][2];
+	}
+	return null;
+};
+
+let updateGrid = (grid, cellIndex) => {
+	if (finishedGrids.includes(cellIndex)) {
+		moveGrid(-1);
+	} else {
+		moveGrid(cellIndex);
+	}
+	for (let i = 0; i < 9; i++) {
+		if (finishedGrids.includes(i)) continue;
+		let winner = checkGrid(grid[i]);
+		if (winner !== null) {
+			finishedGrids.push(i);
+			let miniGrid = document.getElementsByClassName("small")[i];
+			let overlay = document.createElement("div");
+			overlay.classList.add("overlay");
+			overlay.style.backgroundImage = `url(assets/${winner ? "x" : "o"}.svg)`;
+			miniGrid.parentElement.insertBefore(overlay, miniGrid);
+			miniGrid.classList.add("hidden");
+			break;
+		}
+	}
 };
 
 let clearGrid = () => {
@@ -79,6 +145,12 @@ document.addEventListener("DOMContentLoaded", function () {
 		info.classList.remove("hidden");
 		grid.classList.remove("hidden");
 		moveGrid(-1);
+		miniGrids.forEach((grid) => {
+			grid.classList.remove("hidden");
+		});
+		document.querySelectorAll(".overlay").forEach((overlay) => {
+			overlay.remove();
+		});
 		document.getElementById("start").innerHTML = "Reset Game";
 	});
 
@@ -112,18 +184,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			if (checkCell(cell) === null && (currGrid === -1 || gridIndex === currGrid)) {
 				setCell(cell);
-				cell.parentElement.classList.remove("orange-highlight");
 				updateTurn(true);
-				moveGrid(cellIndex);
-
-				cell.querySelector("img").classList.add("cell-animation");
-				cell.addEventListener(
-					"animationend",
-					() => {
-						cell.querySelector("img").classList.remove("cell-animation");
-					},
-					{ once: true }
-				);
+				updateGrid(getGrid(), cellIndex);
 			} else {
 				border.classList.add("shake");
 
