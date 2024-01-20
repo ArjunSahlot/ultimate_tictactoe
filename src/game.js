@@ -1,6 +1,6 @@
 let moves = 0;
 let currGrid = -1;
-const finishedGrids = [];
+let finishedGrids = [];
 const gameState = {};
 
 const turn = () => {
@@ -35,14 +35,14 @@ const updateTurn = (flip = false) => {
 	}
 	const info = document.getElementById("info");
 	info.innerHTML = "Current player: ";
-	setCell(info);
+	setCell(info, true);
 };
 
-const setCell = (cell, index = 0) => {
+const setCell = (cell, inline = false) => {
 	const img = document.createElement("img");
 	img.src = turn() ? "assets/x.svg" : "assets/o.svg";
-	img.classList.add("inline");
-	cell.insertBefore(img, cell.children[index]);
+	if (inline) img.classList.add("inline");
+	cell.insertBefore(img, cell.children[0]);
 
 	img.classList.add("cell-animation");
 	img.addEventListener(
@@ -70,9 +70,27 @@ const checkCell = (cell) => {
 	return null;
 };
 
-const getGrid = () => {
-	// grid[gridIndex][row][col]
+const getGrid = (big = false) => {
 	const grid = [];
+
+    // if big: grid[row][col]
+    if (big) {
+        for (let i = 0; i < 3; i++) {
+            grid.push([]);
+            for (let j = 0; j < 3; j++) {
+                const cell = document.getElementsByClassName("big")[0].children[i*3+j];
+                if (cell.classList.contains("overlay")) {
+                    grid[i].push(checkCell(cell));
+                } else {
+                    grid[i].push(null);
+                }
+            }
+        }
+        console.log(grid)
+        return grid;
+    }
+
+	// grid[gridIndex][row][col]
 	for (let i = 0; i < 9; i++) {
 		grid.push([]);
 		grid[i].push([]);
@@ -87,7 +105,7 @@ const getGrid = () => {
 };
 
 const checkGrid = (grid) => {
-	// check minigrid for winner
+    let filled = true;  // check if fully filled
 	for (let i = 0; i < 3; i++) {
 		if (
 			grid[i][0] !== null &&
@@ -104,6 +122,9 @@ const checkGrid = (grid) => {
 		) {
 			return grid[0][i];
 		}
+        if (grid[i].includes(null)) {
+            filled = false;
+        }
 	}
 	if (
 		grid[0][0] !== null &&
@@ -119,28 +140,46 @@ const checkGrid = (grid) => {
 	) {
 		return grid[0][2];
 	}
-	return null;
+
+    return filled ? "filled" : "ongoing";
 };
 
 const updateGrid = (grid, cellIndex) => {
-	if (finishedGrids.includes(cellIndex)) {
-		moveGrid(-1);
-	} else {
-		moveGrid(cellIndex);
-	}
 	for (let i = 0; i < 9; i++) {
 		if (finishedGrids.includes(i)) continue;
 		const winner = checkGrid(grid[i]);
-		if (winner !== null) {
+        if (winner === "filled") {
+            finishedGrids.push(i);
+        } if (winner !== "ongoing") {
 			finishedGrids.push(i);
 			const miniGrid = document.getElementsByClassName("small")[i];
 			const overlay = document.createElement("div");
 			overlay.classList.add("overlay");
-			overlay.style.backgroundImage = `url(assets/${winner ? "x" : "o"}.svg)`;
 			miniGrid.parentElement.insertBefore(overlay, miniGrid);
 			miniGrid.classList.add("hidden");
+			moves--;
+			setCell(overlay);
+			moves++;
 			break;
 		}
+	}
+
+    if (finishedGrids.length === 9) {
+        alert("Draw!");
+		moveGrid(-1);
+    } else if (finishedGrids.length >= 3) {
+        const bigGrid = getGrid(true);
+        const winner = checkGrid(bigGrid);
+        if (winner !== "ongoing") {
+            alert(`${winner ? "X" : "O"} wins!`);
+        }
+		moveGrid(-1);
+    }
+
+	if (finishedGrids.includes(cellIndex)) {
+		moveGrid(-1);
+	} else {
+		moveGrid(cellIndex);
 	}
 };
 
@@ -171,6 +210,7 @@ start.addEventListener("click", () => {
 	for (const overlay of document.querySelectorAll(".overlay")) {
 		overlay.remove();
 	}
+	finishedGrids = [];
 	document.getElementById("start").innerHTML = "Reset Game";
 });
 
