@@ -1,0 +1,81 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+#grid {
+    margin-top: auto;
+    margin-bottom: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+}
+
+.box {
+    background-color: #EEDEBE;
+    border: 1px solid black;
+    padding: 20px;
+    font-size: 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.box:hover {
+    transform: scale(1.05);
+}
+
+.line {
+    border-color: black;
+}
+
+#follow {
+    cursor: default;
+}
+
+#follow-buttons {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#follow-buttons > div {
+    padding: 15px 30px;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+#github {
+    background-color: #333;
+}
+
+#discord {
+    background-color: #5865F2;
+}
+
+#support {
+    background-color: #ff7b88;
+}
+
+#follow-buttons>div:hover {
+    transform: scale(1.1);
+}
+
+#follow-buttons>div i {
+    font-size: 20px;
+}
+

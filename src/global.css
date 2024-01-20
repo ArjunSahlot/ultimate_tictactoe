@@ -9,6 +9,7 @@ body {
 }
 
 #title {
+    margin-top: 15px;
 	position: relative;
 	font-size: 48px;
 	font-weight: bold;
