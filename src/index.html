@@ -5,8 +5,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ultimate TicTacToe</title>
-    <link rel="stylesheet" href="global.css" />
-    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/index.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -42,44 +42,62 @@
         </div>
         <div class="box" id="follow">
             <div id="follow-buttons">
-                <div id="github"><i class="fab fa-github"></i>Github</div>
-                <div id="discord"><i class="fab fa-discord"></i>Discord</div>
-                <div id="support"><i class="fas fa-heart"></i>Support</div>
+                <a id="github" href="https://github.com/ArjunSahlot/ultimate_tictactoe" target="_blank"><i
+                        class="fab fa-github"></i>Github</a>
+                <a id="discord"><i class="fab fa-discord"></i>Discord</a>
+                <a id="support"><i class="fas fa-heart"></i>Support</a>
             </div>
             <hr class="line">
             <span>Follow Us!</span>
         </div>
     </div>
-</body>
-<script>
-    const boxes = document.querySelectorAll(".box");
-    for (let box of boxes) {
-        if (box.id == "follow") {
-            continue;
+    <script>
+        const boxes = document.querySelectorAll(".box");
+
+        const addAnimation = (outer, inner) => {
+            outer.addEventListener('mouseenter', () => {
+                anime({
+                    targets: inner,
+                    scale: 1.1,
+                    duration: 500
+                });
+            });
+
+            outer.addEventListener('mouseleave', () => {
+                anime({
+                    targets: inner,
+                    scale: 1.0,
+                    duration: 500
+                });
+            });
+
+            outer.addEventListener('mousedown', () => {
+                anime({
+                    targets: inner,
+                    scale: 1.0,
+                    duration: 500
+                })
+            })
         }
-        box.addEventListener("click", () => {
-            window.location.href = box.id + ".html";
-        });
-    }
 
-    const bigLocal = document.querySelector('#local')
-    const smallLocal = bigLocal.children[0];
-    bigLocal.addEventListener('mouseenter', () => {
-        anime({
-            targets: smallLocal,
-            scale: 1.1,
-            duration: 500
-        });
-    });
+        for (let box of boxes) {
+            if (box.id == "follow") {
+                let buttons = box.getElementsByTagName("a");
 
-    bigLocal.addEventListener('mouseleave', () => {
-        anime({
-            targets: smallLocal,
-            scale: 1.0,
-            duration: 500
-        });
-    });
-</script>
-<script src="animations.js"></script>
+                console.log(buttons);
+                
+                for (let button of buttons) {
+                    addAnimation(button, button);
+                }
+            } else {
+                box.addEventListener("click", () => {
+                    window.location.href = box.id + ".html";
+                });
+                addAnimation(box, box.children[0]);
+            }
+        }
+    </script>
+
+</body>
 
 </html>

@@ -46,7 +46,7 @@ body {
     align-items: center;
 }
 
-#follow-buttons > div {
+#follow-buttons > a {
     padding: 15px 30px;
     border-radius: 5px;
     color: white;
@@ -55,8 +55,9 @@ body {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    transition: transform 0.2s;
     cursor: pointer;
+    border: 0;
+    text-decoration: none;
 }
 
 #github {
@@ -71,11 +72,7 @@ body {
     background-color: #ff7b88;
 }
 
-#follow-buttons>div:hover {
-    transform: scale(1.1);
-}
-
-#follow-buttons>div i {
+#follow-buttons>a i {
     font-size: 20px;
 }
 

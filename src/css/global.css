@@ -127,6 +127,8 @@ body {
 	background-color: #ffefcf;
 	z-index: 100;
 	transition: all 0.3s ease;
+    grid-row-end: span 3;
+    grid-column-end: span 3;
 }
 
 .overlay img {
