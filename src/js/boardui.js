@@ -44,15 +44,15 @@ export class BoardUI {
 
     setOverlay(grid, winner) {
         const overlay = document.createElement("div");
-        const miniGrid = document.getElementsByClassName("small")[grid];
+        const small = this.small[grid];
         overlay.classList.add("overlay");
 
-        for (const cell of miniGrid.children) {
+        for (const cell of small.children) {
             cell.classList.add("hidden");
         }
-        miniGrid.appendChild(overlay);
+        small.insertBefore(overlay, small.children[0]);
 
-        this.setCell(overlay, winner);
+        this.setCell(overlay, winner.toUpperCase() === "X");
     }
 
     shakeBorder() {
@@ -137,9 +137,7 @@ export class BoardUI {
     }
 
     checkCell(cell) {
-        // true if x, false if o, null if empty
-        // ERROR: WILL NOT WORK FOR OVERLAYS
-        const img = cell.querySelector("img");
+        const img = cell.getElementsByTagName("img")[0];
         if (img) {
             return img.src.includes("x");
         }
