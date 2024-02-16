@@ -1,5 +1,4 @@
 import { BoardUI } from '../js/boardui';
-import { Board } from '../js/board';
 import fs from 'fs';
 import path from 'path';
 import { JSDOM } from 'jsdom';
@@ -39,32 +38,29 @@ describe('boardui Class', () => {
     test('highlightSmall should be the correct color', () => {
         const boardui = new BoardUI();
 
+        boardui.highlightSmall(0, true);
         let prevColor = boardui.border.style.borderColor;
         let prevShadow = boardui.border.style.boxShadow;
-        boardui.highlightSmall(0, true);
-        let newColor = boardui.border.style.borderColor;
-        let newShadow = boardui.border.style.boxShadow;
-        prevColor = newColor;
-        prevShadow = newShadow;
-        boardui.highlightSmall(3, false);
-        newColor = boardui.border.style.borderColor;
-        newShadow = boardui.border.style.boxShadow;
-        expect(prevColor).not.toBe(newColor);
-        expect(prevShadow).not.toBe(newShadow);
-        prevColor = newColor;
-        prevShadow = newShadow;
-        boardui.highlightSmall(8, false);
-        newColor = boardui.border.style.borderColor;
-        newShadow = boardui.border.style.boxShadow;
-        expect(prevColor).toBe(newColor);
-        expect(prevShadow).toBe(newShadow);
-        prevColor = newColor;
-        prevShadow = newShadow;
-        boardui.highlightSmall(8, true);
-        newColor = boardui.border.style.borderColor;
-        newShadow = boardui.border.style.boxShadow;
-        expect(prevColor).not.toBe(newColor);
-        expect(prevShadow).not.toBe(newShadow);
+        let newColor = prevColor;
+        let newShadow = prevShadow;
+        let prevRand = true;
+        
+        for (let i = 1; i < 20; i++) {
+            let rand = Math.random() > 0.5;
+            boardui.highlightSmall(Math.floor(Math.random()*9), rand);
+            newColor = boardui.border.style.borderColor;
+            newShadow = boardui.border.style.boxShadow;
+            if (prevRand !== rand) {
+                expect(prevColor).not.toBe(newColor);
+                expect(prevShadow).not.toBe(newShadow);
+            } else {
+                expect(prevColor).toBe(newColor);
+                expect(prevShadow).toBe(newShadow);
+            }
+            prevColor = newColor;
+            prevShadow = newShadow;
+            prevRand = rand;
+        }
     });
 
     test('highlightBig should be the right color', () => {
@@ -193,10 +189,45 @@ describe('boardui Class', () => {
 
         for (let i = 0; i < 9; i++) {
             let char = Math.random() > 0.5 ? "X" : "O";
-            boardui.setOverlay(i, char);
+            boardui.setOverlay(i, char === "X");
             let overlay = boardui.small[i].children[0];
             let img = overlay.children[0];
             expect(img.src).toContain(char.toLowerCase() + ".svg");
+        }
+    })
+
+    test('reset properly resets the HTML', () => {
+        let boardui = new BoardUI();
+
+        for (let i = 0; i < 9; i++) {
+            boardui.setOverlay(i, Math.random() > 0.5);
+        }
+        boardui.reset();
+        for (let i = 0; i < 9; i++) {
+            let overlay = boardui.small[i].children[0];
+            expect(overlay.classList.contains("overlay")).toBeFalsy();
+        }
+
+        boardui = new BoardUI();
+        for (let i = 0; i < 81; i++) {
+            let char = Math.random() > 0.5 ? "X" : "O";
+            boardui.setCell(boardui.cells[i], char);
+        }
+        boardui.reset();
+        for (let i = 0; i < 81; i++) {
+            let img = boardui.cells[i].children[0];
+            expect(img).toBeUndefined();
+        }
+    })
+
+    test('updateCurrentPlayer should update the HTML', () => {
+        const boardui = new BoardUI();
+
+        let info = document.getElementById("info");
+        for (let i = 0; i < 20; i++) {
+            let char = Math.random() > 0.5 ? "X" : "O";
+            boardui.updateCurrentPlayer(char === "X");
+            expect(info.querySelector("img").src.toLowerCase()).toContain(char.toLowerCase() + ".svg");
         }
     })
 });

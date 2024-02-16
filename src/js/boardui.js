@@ -50,9 +50,9 @@ export class BoardUI {
         for (const cell of small.children) {
             cell.classList.add("hidden");
         }
-        small.insertBefore(overlay, small.children[0]);
 
-        this.setCell(overlay, winner.toUpperCase() === "X");
+        this.setCell(overlay, winner);
+        small.insertBefore(overlay, small.children[0]);
     }
 
     shakeBorder() {
@@ -85,15 +85,17 @@ export class BoardUI {
 
     reset() {
         const grid = document.getElementsByClassName("big")[0];
-        const cells = document.getElementsByClassName(".cell");
-        const miniGrids = document.getElementsByClassName(".small");
-        const overlays = document.getElementsByClassName(".overlay");
+        const cells = Array.from(document.getElementsByClassName("cell"));
+        const miniGrids = Array.from(document.getElementsByClassName("small"));
+        const overlays = Array.from(document.getElementsByClassName("overlay"));
+        const info = document.getElementById("info");
 
         info.classList.remove("hidden");
         grid.classList.remove("hidden");
 
         for (const cell of cells) {
-            removeCell(cell);
+            this.removeCell(cell);
+            cell.classList.remove("hidden");
         }
 
         for (const grid of miniGrids) {
