@@ -44,10 +44,10 @@ describe('boardui Class', () => {
         let newColor = prevColor;
         let newShadow = prevShadow;
         let prevRand = true;
-        
+
         for (let i = 1; i < 20; i++) {
             let rand = Math.random() > 0.5;
-            boardui.highlightSmall(Math.floor(Math.random()*9), rand);
+            boardui.highlightSmall(Math.floor(Math.random() * 9), rand);
             newColor = boardui.border.style.borderColor;
             newShadow = boardui.border.style.boxShadow;
             if (prevRand !== rand) {

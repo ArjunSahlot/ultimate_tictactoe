@@ -1,9 +1,9 @@
 export class BoardUI {
     constructor() {
-        this.big = document.getElementsByClassName("big")[0];
-        this.small = Array.from(document.getElementsByClassName("small"));
-        this.cells = Array.from(document.querySelectorAll(".cell"));
-        this.border = document.getElementsByClassName("border")[0];
+        this.big = document.querySelector(".big");
+        this.small = Array.from(this.big.getElementsByClassName("small"));
+        this.cells = Array.from(this.big.getElementsByClassName("cell"));
+        this.border = document.querySelector(".border");
     }
 
     highlightSmall(grid, turn) {
@@ -42,17 +42,23 @@ export class BoardUI {
             : "0 0 10px #00aaff";
     }
 
-    setOverlay(grid, winner) {
+    setOverlay(g, winner) {
         const overlay = document.createElement("div");
-        const small = this.small[grid];
         overlay.classList.add("overlay");
 
-        for (const cell of small.children) {
+        let grid;
+        if (g === -1) {
+            grid = this.big;
+        } else {
+            grid = this.small[g];
+        }
+
+        for (const cell of grid.children) {
             cell.classList.add("hidden");
         }
 
-        this.setCell(overlay, winner);
-        small.insertBefore(overlay, small.children[0]);
+        grid.insertBefore(overlay, grid.children[0]);
+        this.setCell(overlay, winner);  // show the animation after positioned
     }
 
     shakeBorder() {
@@ -98,8 +104,8 @@ export class BoardUI {
             cell.classList.remove("hidden");
         }
 
-        for (const grid of miniGrids) {
-            grid.classList.remove("hidden");
+        for (const mg of miniGrids) {
+            mg.classList.remove("hidden");
         }
 
         for (const overlay of overlays) {
@@ -117,7 +123,11 @@ export class BoardUI {
 
     setCell(cell, turn, inline = false) {
         const img = document.createElement("img");
-        img.src = turn ? "assets/x.svg" : "assets/o.svg";
+        if (turn === null) {
+            img.src = "assets/draw.svg";
+        } else {
+            img.src = turn ? "assets/x.svg" : "assets/o.svg";
+        }
         if (inline) img.classList.add("inline");
         cell.insertBefore(img, cell.children[0]);
 
@@ -139,7 +149,7 @@ export class BoardUI {
     }
 
     checkCell(cell) {
-        const img = cell.getElementsByTagName("img")[0];
+        const img = cell.querySelector("img");
         if (img) {
             return img.src.includes("x");
         }
@@ -147,40 +157,40 @@ export class BoardUI {
     }
 
     getGrid(big = false) {
-        const grid = [];
+        let grid = [];
 
         // if big: grid[row][col]
         if (big) {
             for (let i = 0; i < 3; i++) {
                 grid.push([]);
                 for (let j = 0; j < 3; j++) {
-                    const cell =
+                    const small =
                         document.getElementsByClassName("big")[0].children[i * 3 + j];
-                    if (cell.classList.contains("overlay")) {
-                        grid[i].push(this.checkCell(cell));
+                    if (small.children[0].classList.contains("overlay")) {
+                        grid[i].push(this.checkCell(small.children[0]));
                     } else {
                         grid[i].push(null);
                     }
                 }
             }
-            return grid;
+        } else {
+            // grid[gridIndex][row][col]
+            for (let i = 0; i < 9; i++) {
+                if (this.small[i].children[0].classList.contains("overlay")) {
+                    grid.push(this.checkCell(this.small[i].children[0]));
+                    continue;
+                }
+                grid.push([]);
+                grid[i].push([]);
+                grid[i].push([]);
+                grid[i].push([]);
+                for (let j = 0; j < 9; j++) {
+                    const cell = this.small[i].children[j];
+                    grid[i][Math.floor(j / 3)].push(this.checkCell(cell));
+                }
+            }
         }
 
-        // grid[gridIndex][row][col]
-        for (let i = 0; i < 9; i++) {
-            if (this.small[i].children[0].classList.contains("overlay")) {
-                grid.push(this.checkCell(this.small[i].children[0]));
-                continue;
-            }
-            grid.push([]);
-            grid[i].push([]);
-            grid[i].push([]);
-            grid[i].push([]);
-            for (let j = 0; j < 9; j++) {
-                const cell = this.small[i].children[j];
-                grid[i][Math.floor(j / 3)].push(this.checkCell(cell));
-            }
-        }
         return grid;
     }
 }
