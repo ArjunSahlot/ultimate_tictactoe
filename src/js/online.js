@@ -9,7 +9,7 @@ let state = {
 
 function initializePeer() {
   let connId = document.getElementById("conn-id");
-  let removeSpinner = insertSpinner(connId);
+  let removeSpinner = insertSpinner(document.getElementById("conn-id-load"));
 
   try {
     peer = new Peer();
@@ -22,7 +22,7 @@ function initializePeer() {
 
   peer.on("open", (id) => {
     removeSpinner();
-    document.getElementById("conn-id").innerHTML = id;
+    connId.innerHTML = id;
   });
 
   peer.on("connection", (connection) => {
@@ -113,8 +113,10 @@ function insertSpinner(targetElement) {
   spinner.appendChild(circle);
 
   targetElement.appendChild(spinner);
+  targetElement.parentElement.style.pointerEvents = "none";
 
   return function removeSpinner() {
+    targetElement.parentElement.style.pointerEvents = "auto";
     spinner.remove();
   };
 }

@@ -197,4 +197,12 @@ export class BoardUI {
 
     return grid;
   }
+
+  lock() {
+    this.big.style.pointerEvents = "none";
+  }
+
+  unlock() {
+    this.big.style.pointerEvents = "auto";
+  }
 }
