@@ -1,32 +1,44 @@
-import { Board } from "./board.js";
+const boxes = document.querySelectorAll(".box");
 
-const board = new Board();
-
-start.addEventListener("click", () => {
-    board.reset();
-});
-
-for (const grid of board.boardUI.small) {
-    grid.addEventListener("mouseover", () => {
-        if (board.moves !== 0) return;
-        board.boardUI.highlightSmall(grid, board.turn());
+const addAnimation = (outer, inner) => {
+  outer.addEventListener("mouseenter", () => {
+    anime({
+      targets: inner,
+      scale: 1.1,
+      duration: 500,
     });
-}
+  });
 
-for (const cell of board.boardUI.cells) {
-    cell.addEventListener("mouseover", () => {
-        board.boardUI.highlightCell(cell);
+  outer.addEventListener("mouseleave", () => {
+    anime({
+      targets: inner,
+      scale: 1.0,
+      duration: 500,
     });
+  });
 
-    cell.addEventListener("mouseout", () => {
-        board.boardUI.unhighlightCell(cell);
+  outer.addEventListener("mousedown", () => {
+    anime({
+      targets: inner,
+      scale: 1.0,
+      duration: 500,
     });
+  });
+};
 
-    cell.addEventListener("click", () => {
-        if (board.legalMove(cell)) {
-            board.move(cell);
-        } else {
-            board.boardUI.shakeBorder();
-        }
+for (let box of boxes) {
+  if (box.id == "follow") {
+    let buttons = box.getElementsByTagName("a");
+
+    console.log(buttons);
+
+    for (let button of buttons) {
+      addAnimation(button, button);
+    }
+  } else {
+    box.addEventListener("click", () => {
+      window.location.href = box.id + ".html";
     });
+    addAnimation(box, box.children[0]);
+  }
 }

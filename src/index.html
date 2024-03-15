@@ -1,103 +1,63 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ultimate TicTacToe</title>
     <link rel="stylesheet" href="css/global.css" />
     <link rel="stylesheet" href="css/index.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
 
-<body>
+  <body>
     <div id="title">Ultimate TicTacToe</div>
 
     <div id="grid">
-        <div class="box" id="ai">
-            <img src="https://picsum.photos/200"></img>
-            <hr class="line">
-            <span>Play AI</span>
+      <div class="box" id="ai">
+        <img src="https://picsum.photos/200" />
+        <hr class="line" />
+        <span>Play AI</span>
+      </div>
+      <div class="box" id="local">
+        <img src="https://picsum.photos/200" />
+        <hr class="line" />
+        <span>Play Locally</span>
+      </div>
+      <div class="box" id="online">
+        <img src="https://picsum.photos/200" />
+        <hr class="line" />
+        <span>Play Online</span>
+      </div>
+      <div class="box" id="analyze">
+        <img src="https://picsum.photos/200" />
+        <hr class="line" />
+        <span>Analyze</span>
+      </div>
+      <div class="box" id="about">
+        <img src="https://picsum.photos/200" />
+        <hr class="line" />
+        <span>About</span>
+      </div>
+      <div class="box" id="follow">
+        <div id="follow-buttons">
+          <a
+            id="github"
+            href="https://github.com/ArjunSahlot/ultimate_tictactoe"
+            target="_blank"
+          >
+            <i class="fab fa-github"></i>Github
+          </a>
+          <a id="discord"><i class="fab fa-discord"></i>Discord</a>
+          <a id="support"><i class="fas fa-heart"></i>Support</a>
         </div>
-        <div class="box" id="local">
-            <img src="https://picsum.photos/200"></img>
-            <hr class="line">
-            <span>Play Locally</span>
-        </div>
-        <div class="box" id="online">
-            <img src="https://picsum.photos/200"></img>
-            <hr class="line">
-            <span>Play Online</span>
-        </div>
-        <div class="box" id="analyze">
-            <img src="https://picsum.photos/200"></img>
-            <hr class="line">
-            <span>Analyze</span>
-        </div>
-        <div class="box" id="about">
-            <img src="https://picsum.photos/200"></img>
-            <hr class="line">
-            <span>About</span>
-        </div>
-        <div class="box" id="follow">
-            <div id="follow-buttons">
-                <a id="github" href="https://github.com/ArjunSahlot/ultimate_tictactoe" target="_blank"><i
-                        class="fab fa-github"></i>Github</a>
-                <a id="discord"><i class="fab fa-discord"></i>Discord</a>
-                <a id="support"><i class="fas fa-heart"></i>Support</a>
-            </div>
-            <hr class="line">
-            <span>Follow Us!</span>
-        </div>
+        <hr class="line" />
+        <span>Follow Us!</span>
+      </div>
     </div>
-    <script>
-        const boxes = document.querySelectorAll(".box");
-
-        const addAnimation = (outer, inner) => {
-            outer.addEventListener('mouseenter', () => {
-                anime({
-                    targets: inner,
-                    scale: 1.1,
-                    duration: 500
-                });
-            });
-
-            outer.addEventListener('mouseleave', () => {
-                anime({
-                    targets: inner,
-                    scale: 1.0,
-                    duration: 500
-                });
-            });
-
-            outer.addEventListener('mousedown', () => {
-                anime({
-                    targets: inner,
-                    scale: 1.0,
-                    duration: 500
-                })
-            })
-        }
-
-        for (let box of boxes) {
-            if (box.id == "follow") {
-                let buttons = box.getElementsByTagName("a");
-
-                console.log(buttons);
-                
-                for (let button of buttons) {
-                    addAnimation(button, button);
-                }
-            } else {
-                box.addEventListener("click", () => {
-                    window.location.href = box.id + ".html";
-                });
-                addAnimation(box, box.children[0]);
-            }
-        }
-    </script>
-
-</body>
-
+    <script type="module" src="js/index.js"></script>
+  </body>
 </html>

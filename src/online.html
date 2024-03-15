@@ -1,122 +1,142 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Ultimate TicTacToe</title>
-		<link rel="stylesheet" href="css/global.css" />
-	</head>
-	<body>
-		<div id="title">Ultimate TicTacToe</div>
-		<button id="start">Start Game</button>
-		<div class="center-container">
-			<div id="info" class="hidden">Current player: <img src="assets/x.svg" class="inline" /></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ultimate TicTacToe</title>
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/online.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div id="title">Ultimate TicTacToe</div>
 
-			<div class="border hidden"></div>
+    <div class="connect-wrapper">
+      <div class="connect-box">
+        <div id="conn-id-label">Your connection id is</div>
+        <div id="id-box">
+          <div id="conn-id"></div>
+          <button id="copy-btn" class="fa fa-copy"></button>
+        </div>
+        <input type="text" id="inp" placeholder="Friend's connection id" />
+        <button id="join">Join<div id="join-load"></div></button>
+      </div>
+    </div>
 
-			<div class="big hidden">
-				<div class="small">
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-				</div>
-				<div class="small">
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-				</div>
-				<div class="small">
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-				</div>
-				<div class="small">
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-				</div>
-				<div class="small">
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-				</div>
-				<div class="small">
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-				</div>
-				<div class="small">
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-				</div>
-				<div class="small">
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-				</div>
-				<div class="small">
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-					<div class="cell"></div>
-				</div>
-			</div>
-		</div>
+    <div class="hidden center-container">
+      <div id="info">
+        Current player: <img src="assets/x.svg" class="inline" />
+      </div>
 
-		<script type="module" src="js/index.js"></script>
-	</body>
+      <div class="border"></div>
+
+      <div class="big">
+        <div class="small">
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+        </div>
+        <div class="small">
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+        </div>
+        <div class="small">
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+        </div>
+        <div class="small">
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+        </div>
+        <div class="small">
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+        </div>
+        <div class="small">
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+        </div>
+        <div class="small">
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+        </div>
+        <div class="small">
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+        </div>
+        <div class="small">
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    <script type="module" src="js/online.js"></script>
+  </body>
 </html>
