@@ -140,6 +140,11 @@ export class Board {
   }
 
   move(cell) {
+    if (cell === null) {
+      // first message from sender which is going second is an empty move
+      return;
+    }
+
     const cellIndex = this.boardUI.getRelativeIndex(cell);
 
     this.currGrid = cellIndex;
@@ -151,5 +156,13 @@ export class Board {
     this.updateGrid();
     this.updateTurn();
     this.moveGrid();
+  }
+
+  lock() {
+    this.boardUI.lock();
+  }
+
+  unlock() {
+    this.boardUI.unlock();
   }
 }

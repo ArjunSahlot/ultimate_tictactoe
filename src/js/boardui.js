@@ -4,6 +4,7 @@ export class BoardUI {
     this.small = Array.from(this.big.getElementsByClassName("small"));
     this.cells = Array.from(this.big.getElementsByClassName("cell"));
     this.border = document.querySelector(".border");
+    this.locked = false;
   }
 
   highlightSmall(grid, turn) {
@@ -199,10 +200,12 @@ export class BoardUI {
   }
 
   lock() {
+    this.locked = true;
     this.big.style.pointerEvents = "none";
   }
 
   unlock() {
+    this.locked = false;
     this.big.style.pointerEvents = "auto";
   }
 }
