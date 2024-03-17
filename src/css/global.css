@@ -14,22 +14,9 @@ body {
   font-size: 48px;
   font-weight: bold;
   transition: all 0.3s ease;
-}
-
-#start {
-  position: relative;
-  font-size: 32px;
-  padding: 15px 30px;
-  background-color: #4caf50;
-  border: none;
-  border-radius: 8px;
-  color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
   cursor: pointer;
-  margin-top: 10px;
-  margin-bottom: 20px;
+  border: 5px solid #EEDEBE;
+  padding: 5px;
+  border-radius: 10px;
 }
 
