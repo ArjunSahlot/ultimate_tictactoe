@@ -1,4 +1,6 @@
 import { Board } from "./board.js";
+// import { MonteCarloSearch } from "./mcts.js";
+import { Grid } from "./grid.js";
 
 const board = new Board();
 
@@ -25,6 +27,10 @@ for (const cell of board.boardUI.cells) {
   cell.addEventListener("click", () => {
     if (board.legalMove(cell)) {
       board.move(cell);
+
+      let grid = new Grid(board);
+
+      console.log(grid.toString());
     } else {
       board.boardUI.shakeBorder();
     }

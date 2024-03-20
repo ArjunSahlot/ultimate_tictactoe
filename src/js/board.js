@@ -78,10 +78,9 @@ export class Board {
 
   updateGrid() {
     /**
-            * checks if the grid has a new overlay/winner/etc.
-            returns:
-            * a grid number if a grid has won
-        */
+      * checks if the grid has a new overlay/winner/etc.
+      * returns: a grid number if a grid has won
+      */
 
     const grid = this.boardUI.getGrid();
     for (let g = 0; g < 9; g++) {
