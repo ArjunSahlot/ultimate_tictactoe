@@ -118,20 +118,22 @@ export class BoardUI {
     if (start) {
       start.innerHTML = "Reset Game";
     }
+
+    this.updateCurrentPlayer(true);
   }
 
   updateCurrentPlayer(turn) {
     const info = document.getElementById("info");
     info.innerHTML = "Current player: ";
-    this.setCell(info, turn, true);
+    this.setCell(info, turn ? 1 : 2, true);
   }
 
   setCell(cell, turn, inline = false) {
     const img = document.createElement("img");
-    if (turn === null) {
+    if (turn === 3) {
       img.src = "assets/draw.svg";
     } else {
-      img.src = turn ? "assets/x.svg" : "assets/o.svg";
+      img.src = (turn === 1) ? "assets/x.svg" : "assets/o.svg";
     }
     if (inline) img.classList.add("inline");
     cell.insertBefore(img, cell.children[0]);
@@ -156,12 +158,22 @@ export class BoardUI {
   checkCell(cell) {
     const img = cell.querySelector("img");
     if (img) {
-      return img.src.includes("x");
+      if (img.src.includes("x")) {
+        return 1;
+      } else if (img.src.includes("o")) {
+        return 2;
+      } else if (img.src.includes("draw")) {
+        return 3;
+      }
     }
-    return null;
+    return 0;
   }
 
   getGrid(big = false) {
+    // EMPTY - 0
+    // X     - 1
+    // O     - 2
+    // DRAW  - 3
     let grid = [];
 
     // if big: grid[row][col]
@@ -174,7 +186,7 @@ export class BoardUI {
           if (small.children[0].classList.contains("overlay")) {
             grid[i].push(this.checkCell(small.children[0]));
           } else {
-            grid[i].push(null);
+            grid[i].push(0);
           }
         }
       }

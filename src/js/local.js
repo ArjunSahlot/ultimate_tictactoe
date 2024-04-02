@@ -9,7 +9,7 @@ document.getElementById("start").addEventListener("click", () => {
 for (const grid of board.boardUI.small) {
   grid.addEventListener("mouseover", () => {
     if (board.moves !== 0) return;
-    board.boardUI.highlightSmall(grid, board.turn());
+    board.boardUI.highlightSmall(grid, board.turn);
   });
 }
 
