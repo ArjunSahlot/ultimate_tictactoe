@@ -52,3 +52,14 @@ for (const cell of board.boardUI.cells) {
     }
   });
 }
+
+document.getElementById("ai").addEventListener("click", () => {
+  let bestmove = bot.bestmove(1000);
+  console.log(bestmove);
+
+  // if (bestmove[0]) {
+  //   board.move(bestmove[0]);
+  //   grid.move(bestmove[0]);
+  //   bot.newPosition(grid);
+  // }
+})

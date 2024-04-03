@@ -100,7 +100,6 @@ export class Board {
 
     if (this.finishedGrids.length >= 3) {
       const bigGrid = this.boardUI.getGrid(true);
-      console.log(bigGrid);
       const winner = this.checkWinner(bigGrid);
       if (winner !== 0) {
         this.currGrid = -1;

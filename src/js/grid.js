@@ -101,7 +101,8 @@ export class Grid {
     string += this.finishedGrids.join("") + ",";
     string += (this.turn ? "X" : "O") + ",";
     // string += this.moves + ",";
-    string += this.currGrid;
+    string += this.currGrid + ",";
+    string += this.winner;
 
     return string;
   }
@@ -130,6 +131,7 @@ export class Grid {
     this.moves = meta[1] === "X" ? 0 : 1;
     // this.moves = parseInt(meta[1]);
     this.currGrid = parseInt(meta[2]);
+    this.winner = parseInt(meta[3]);
   }
 
   fromBoard(board) {
@@ -206,10 +208,7 @@ export class Grid {
       this.currGrid = cell;
     }
 
-    let bigWinner = this.checkWinner();
-    if (bigWinner !== 0) {
-      this.winner = bigWinner;
-    }
+    this.winner = this.checkWinner();
   }
 
   checkWinner() {
@@ -298,7 +297,7 @@ export class Grid {
     return g;
   }
 
-  toString(g = true, f = true, m = true, c = true, t = true, l = true) {
+  toString(g = true, f = true, m = true, c = true, t = true, l = true, w = true) {
     let string = "";
 
     if (g) {
@@ -351,7 +350,19 @@ export class Grid {
       this.legalMoves()
         .map((x) => x.join(","))
         .join("), (") +
-      ")";
+      ")\n";
+    }
+    if (w) {
+
+      if (this.winner === 1) {
+        string += "Winner: X\n";
+      } else if (this.winner === 2) {
+        string += "Winner: O\n";
+      } else if (this.winner === 3) {
+        string += "Winner: Draw\n";
+      } else {
+        string += "Win Probability: " + this.getWinProbability(100) + "\n";
+      }
     }
 
     return string;

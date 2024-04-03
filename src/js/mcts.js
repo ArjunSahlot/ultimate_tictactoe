@@ -14,8 +14,11 @@ export class MCTS {
     // { sGrid: [[[move, sGrid], ...], [wins, games]] }
     this.gameTree = new Map();
 
-    // [parent, move, sGrid, gGrid, trail, sims]
+    // [parent, move, sGrid, gGrid, trail, terminal, stats]
     this.selected = {};
+
+    this.finishedSimulations = 0;
+    this.finishedDepth = 0;
   }
 
   newPosition(grid) {
@@ -30,7 +33,7 @@ export class MCTS {
       return Infinity;
     } else {
       return (
-        wins / games + 2 * Math.sqrt(Math.log(parentGames) / games)
+        (wins / games) + 2 * Math.sqrt(Math.log(parentGames) / games)
       );
     }
   }
@@ -85,6 +88,8 @@ export class MCTS {
             sGrid: position,
             gGrid: gGrid,
             trail: trail,
+            terminal: false,
+            stats: [0, 0],
           }
           return;
         }
@@ -113,6 +118,8 @@ export class MCTS {
       sGrid: sRoot,
       gGrid: gRoot,
       trail: trail,
+      terminal: false,
+      stats: [0, 0],
     }
   }
 
@@ -121,42 +128,56 @@ export class MCTS {
       return;
     }
 
-    this.gameTree.set(this.selected.sGrid, [this.selected.gGrid.getChildren(), [0, 0]]);
+    if (this.gameTree.has(this.selected.sGrid)) {
+      this.selected.terminal = true;
+    } else {
+      this.gameTree.set(this.selected.sGrid, [this.selected.gGrid.getChildren(), [0, 0]]);
+    }
   }
 
   simulate(nGames = 1) {
-    let nWins = nGames * this.selected.gGrid.getWinProbability(nGames);
+    let xWins = nGames * this.selected.gGrid.getWinProbability(nGames);
 
-    this.selected.stats = [nGames, nWins];
+    this.selected.stats = [nGames, xWins];
+
+    this.finishedSimulations += nGames;
   }
 
   backpropagate() {
     if (!this.selected.trail || !this.selected.stats) return;
 
     let nGames = this.selected.stats[0];
-    let nWins = this.selected.stats[1];
-    let nLosses = nGames - nWins;
-    let xBoard = this.selected.gGrid.turn;
+    let xWins = this.selected.stats[1];
+    let oWins = nGames - xWins;
+    let turn = !this.selected.gGrid.turn;  // this is notted because turn is switched after move
     for (let i = this.selected.trail.length-1; i >= 0; i--) {
-      // wins are counted if xBoard is true
       let position = this.selected.trail[i];
-      let [children, stats] = this.gameTree.get(position);
-      let [wins, games] = stats;
+      let [children, [wins, games]] = this.gameTree.get(position);
 
-      wins += xBoard ? nWins : nLosses;
+      wins += turn ? xWins : oWins;
       games += nGames;
 
+      turn = !turn;
+
       this.gameTree.set(position, [children, [wins, games]]);
+
+      // console.log(position);
+      // let g = new Grid(0, false);
+      // g.deserialize(position);
+      // console.log(g.toString());
+      // console.log(turn);
+      // console.log(xWins, oWins);
+      // console.log(wins, games);
     }
   }
 
   runIterations(stop) {
-    while (true) {
+    while (!stop()) {
       this.select();
       this.expand();
       this.simulate();
       this.backpropagate();
-      if (stop()) break;
+      // document.getElementById("ai").innerHTML = "Query AI (" + this.finishedSimulations + ")";
     }
   }
 
@@ -172,10 +193,9 @@ export class MCTS {
 
     this.runIterations(stop);
 
-    console.dir(this.gameTree, { depth: null });
-
     let possibleMoves = this.gameTree.get(this.sGrid)[0];
     let currBest = [null, -Infinity];
+    let scores = [];
     for (let [move, position] of possibleMoves) {
       let data = this.gameTree.get(position);
       if (!data) {
@@ -184,10 +204,13 @@ export class MCTS {
       }
       let [_, [wins, games]] = this.gameTree.get(position);
       let score = wins / games;
+      scores.push([move, score]);
       if (score > currBest[1]) {
         currBest = [move, score];
       }
     }
+
+    console.log(scores);
 
     return currBest;
   }
